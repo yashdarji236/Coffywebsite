@@ -274,43 +274,57 @@
 
 
     /* ========================================================================
-       7. SCENE STORYTELLING & DYNAMIC UI TRANSFORMATIONS
+       7. SCENE STORYTELLING & INSTANT ONE-WAY REVEALS
+       Content appears immediately on scroll down with zero artificial lag.
+       On scroll up, ZERO animation is shown (content remains permanently solid).
        ======================================================================== */
-
-    // Scene progression thresholds across the global scroll timeline
-    const SCENE_DATA = [
-        { id: 'scene-hero', name: 'SCENE 01 — HERO', start: 0.00, end: 0.16 },
-        { id: 'scene-experience', name: 'SCENE 02 — THE EXPERIENCE', start: 0.16, end: 0.32 },
-        { id: 'scene-ingredients', name: 'SCENE 03 — THE INGREDIENTS', start: 0.32, end: 0.52 },
-        { id: 'scene-craft', name: 'SCENE 04 — THE CRAFT', start: 0.52, end: 0.72 },
-        { id: 'scene-product', name: 'SCENE 05 — THE PRODUCT', start: 0.72, end: 0.88 },
-        { id: 'scene-cta', name: 'SCENE 06 — FINAL RITUAL', start: 0.88, end: 1.00 }
-    ];
+    const revealedScenes = new WeakSet();
+    let lastScrollY = window.pageYOffset || 0;
 
     /**
-     * Updates active scene storytelling visibility.
-     * @param {number} progress (0.0 to 1.0)
-     * @param {number} frameIndex (0 to totalFrames - 1)
+     * Reveals scenes immediately as they enter view when scrolling down.
+     * When scrolling up: NO animation or hiding is ever performed.
      */
-    function initStorytelling(progress, frameIndex) {
-        // Trigger dynamic appearance of scene contents
-        DOM.scenes.forEach((section) => {
-            const rect = section.getBoundingClientRect();
+    function updateSceneReveals() {
+        const currentScrollY = window.pageYOffset || 0;
+        const isScrollingDown = currentScrollY >= lastScrollY;
+        lastScrollY = currentScrollY;
+
+        DOM.scenes.forEach((section, idx) => {
             const content = section.querySelector('.scene-content');
             if (!content) return;
 
-            // Content is active when sticky container is in view
-            if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= window.innerHeight * 0.45) {
-                content.classList.add('active');
-            } else {
-                content.classList.remove('active');
+            // Scene 01 (Hero) is always immediately visible
+            if (idx === 0) {
+                content.classList.add('revealed');
+                revealedScenes.add(section);
+                return;
+            }
+
+            // Once revealed, NEVER re-animate or hide (especially on scroll up)
+            if (revealedScenes.has(section)) {
+                return;
+            }
+
+            // When scrolling down, reveal immediately as soon as scene enters view (85% of viewport)
+            if (isScrollingDown) {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= window.innerHeight * 0.85) {
+                    content.classList.add('revealed');
+                    revealedScenes.add(section);
+                }
             }
         });
+    }
+
+    function initStorytelling(progress, frameIndex) {
+        updateSceneReveals();
     }
 
 
     /* ========================================================================
        8. GSAP SCROLLTRIGGER SYNCHRONIZATION
+       Synchronizes global scroll progress without intrusive element reverses.
        ======================================================================== */
     function initScrollAnimations() {
         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
@@ -323,28 +337,6 @@
                 onUpdate: (self) => {
                     state.targetProgress = self.progress;
                 }
-            });
-
-            // Smooth parallax and opacity transitions for each scene content
-            DOM.scenes.forEach((scene) => {
-                const content = scene.querySelector('.scene-content');
-                if (!content) return;
-
-                gsap.fromTo(content, 
-                    { opacity: 0, y: 35 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 1,
-                        ease: 'power2.out',
-                        scrollTrigger: {
-                            trigger: scene,
-                            start: 'top 60%',
-                            end: 'bottom 40%',
-                            toggleActions: 'play reverse play reverse'
-                        }
-                    }
-                );
             });
 
             window.addEventListener('load', () => ScrollTrigger.refresh());
@@ -476,7 +468,7 @@
                     try {
                         noiseNode?.stop();
                         noiseNode?.disconnect();
-                    } catch (e) {}
+                    } catch (e) { }
                     state.soundPlaying = false;
                     DOM.soundToggle.classList.remove('playing');
                     if (DOM.soundState) DOM.soundState.textContent = 'OFF';
@@ -498,8 +490,11 @@
        11. EVENT LISTENERS
        ======================================================================== */
     function attachListeners() {
-        // Native scroll listener for continuous progress computation
-        window.addEventListener('scroll', updateScrollProgress, { passive: true });
+        // Native scroll listener for continuous progress computation and snappy reveals
+        window.addEventListener('scroll', () => {
+            updateScrollProgress();
+            updateSceneReveals();
+        }, { passive: true });
 
         // Debounced resize handler
         let resizeTimeout;
@@ -534,8 +529,9 @@
         initAmbientSound();
         attachListeners();
 
-        // Calculate initial scroll
+        // Calculate initial scroll and reveals
         updateScrollProgress();
+        updateSceneReveals();
 
         // Start continuous RAF render loop
         requestAnimationFrame(animationTick);

@@ -29,7 +29,9 @@
 }
 
 /* --- RESET & BASE --- */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -60,13 +62,16 @@ body {
 ::-webkit-scrollbar {
     width: 4px;
 }
+
 ::-webkit-scrollbar-track {
     background: var(--black);
 }
+
 ::-webkit-scrollbar-thumb {
     background: var(--dark-roast);
     border-radius: 2px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
     background: var(--champagne);
 }
@@ -176,7 +181,9 @@ button {
 }
 
 @media (pointer: coarse) {
-    .custom-cursor { display: none !important; }
+    .custom-cursor {
+        display: none !important;
+    }
 }
 
 /* ==========================================================================
@@ -339,7 +346,8 @@ button {
 .scene-section {
     position: relative;
     width: 100%;
-    min-height: 140vh; /* scroll runway for background animation */
+    min-height: 140vh;
+    /* scroll runway for background animation */
 }
 
 .scene-sticky {
@@ -356,15 +364,24 @@ button {
     pointer-events: none;
 }
 
+/* Hero is visible immediately with zero animation delay */
+.hero-content {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Story content: snappy, immediate entrance on first scroll-down */
 .scene-content {
     pointer-events: auto;
     position: relative;
     z-index: 20;
     opacity: 0;
-    transform: translateY(25px);
-    transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+    transform: translateY(16px);
+    transition: opacity 0.35s ease-out, transform 0.35s ease-out;
 }
 
+/* Once revealed, stays permanently solid — ZERO animation on scroll-up */
+.scene-content.revealed,
 .scene-content.active {
     opacity: 1;
     transform: translateY(0);
