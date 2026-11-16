@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOUR CAFÉ — The Art of Coffee</title>
+    <meta name="description" content="A continuous, full-screen scroll-driven cinematic coffee brand experience.">
+
+    <!-- Luxury Typography: Cormorant Garamond & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@200;300;400;500&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 1. FULL-VIEWPORT FIXED BACKGROUND CANVAS -->
+    <canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
+
+    <!-- 2. CINEMATIC SCRIM & GRAIN OVERLAYS -->
+    <div class="cinema-scrim" aria-hidden="true"></div>
+    <div class="grain-overlay" aria-hidden="true"></div>
+
+    <!-- 3. CUSTOM MINIMAL CURSOR -->
+    <div class="custom-cursor" id="custom-cursor" aria-hidden="true">
+        <div class="cursor-dot"></div>
+        <div class="cursor-ring"></div>
+    </div>
+
+    <!-- 4. ULTRA-MINIMAL PRELOADER SCREEN -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <span class="preloader-mark">❖</span>
+            <h1 class="preloader-title">YOUR CAFÉ</h1>
+            <p class="preloader-subtitle">Preparing the continuous pour</p>
+            
+            <div class="preloader-bar-wrap">
+                <div class="preloader-bar" id="preloader-bar"></div>
+            </div>
+            
+            <div class="preloader-status">
+                <span id="preloader-percent">0%</span>
+                <span id="preloader-frames">0 / 260</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. DISCREET LUXURY WATERMARK & AUDIO TOGGLE (NO NAVBAR) -->
+    <div class="minimal-brand-watermark" aria-hidden="true">
+        <span class="mark-glyph">❖</span>
+        <span class="mark-name">YOUR CAFÉ</span>
+        <span class="mark-sub">ATELIER</span>
+    </div>
+
+    <button class="minimal-sound-btn" id="sound-toggle" aria-label="Toggle ambient sound">
+        <span class="sound-label">SOUND</span>
+        <span class="sound-state" id="sound-state">OFF</span>
+    </button>
+
+    <!-- 6. CONTINUOUS SCROLL STORYTELLING SCENES -->
+    <main class="story-wrapper" id="story-wrapper">
+
+        <!-- ==================================================================
+             SCENE 01 — HERO (0%–15%)
+             ================================================================== -->
+        <section class="scene-section scene-hero" id="scene-hero">
+            <div class="scene-sticky">
+                <div class="scene-content hero-content">
+                    <span class="scene-meta-label">THE ART OF SLOW LIVING</span>
+
+                    <h1 class="hero-title">
+                        <span class="line">NOT JUST</span>
+                        <span class="line line-italic">a cup of coffee.</span>
+                    </h1>
+
+                    <p class="hero-desc">
+                        An extraordinary experience, crafted one moment at a time.
+                        A quiet sensory journey guided by volcanic mist, ember, and patience.
+                    </p>
+
+                    <div class="hero-foot-meta">
+                        <span class="meta-coords">N° 04°35'56" W 75°42'08" — HUILA</span>
+                        <span class="meta-scroll-prompt">Scroll to begin &darr;</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             SCENE 02 — THE EXPERIENCE (15%–30%)
+             ================================================================== -->
+        <section class="scene-section scene-experience" id="scene-experience">
+            <div class="scene-sticky">
+                <div class="scene-content experience-content">
+                    <span class="scene-meta-label">01 / THE EXPERIENCE</span>
+
+                    <h2 class="scene-heading">
+                        IT STARTS WITH<br>
+                        <em>a moment.</em>
+                    </h2>
+
+                    <p class="scene-body-text">
+                        Before the first sip, there is a feeling. A moment worth slowing down for.
+                        The silent alchemy of steam meeting roast, awakening oils that have waited seasons to speak.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             SCENE 03 — THE INGREDIENTS (30%–50%)
+             ================================================================== -->
+        <section class="scene-section scene-ingredients" id="scene-ingredients">
+            <div class="scene-sticky">
+                <div class="scene-content ingredients-content">
+                    <div class="scene-header-minimal">
+                        <span class="scene-meta-label">02 / THE INGREDIENTS</span>
+                        <h2 class="scene-heading-center">
+                            THE PERFECT<br><em>blend.</em>
+                        </h2>
+                        <p class="scene-lead-center">
+                            Carefully selected. Beautifully roasted. Perfectly balanced.
+                        </p>
+                    </div>
+
+                    <div class="ingredients-minimal-row">
+                        <div class="ing-item">
+                            <span class="ing-index">01</span>
+                            <h3 class="ing-name">SELECTED BEANS</h3>
+                            <p class="ing-desc">Rich character and exceptional aroma from high-altitude volcanic shade micro-lots.</p>
+                        </div>
+                        <div class="ing-item">
+                            <span class="ing-index">02</span>
+                            <h3 class="ing-name">PERFECT ROAST</h3>
+                            <p class="ing-desc">A balanced depth of flavor, sculpted in small batches on cast-iron drum burners.</p>
+                        </div>
+                        <div class="ing-item">
+                            <span class="ing-index">03</span>
+                            <h3 class="ing-name">FRESHLY BREWED</h3>
+                            <p class="ing-desc">A smooth and unforgettable finish crowned by silky amber crema.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             SCENE 04 — THE CRAFT (50%–70%)
+             ================================================================== -->
+        <section class="scene-section scene-craft" id="scene-craft">
+            <div class="scene-sticky">
+                <div class="scene-content craft-content">
+                    <div class="craft-left">
+                        <span class="scene-meta-label">03 / THE CRAFT</span>
+                        <h2 class="scene-heading">
+                            CRAFT IS IN<br>
+                            <em>every detail.</em>
+                        </h2>
+                        <p class="scene-body-text">
+                            From the first drop to the final sip, every detail matters.
+                            Measured not in speed, but in depth, stillness, and intention.
+                        </p>
+                    </div>
+
+                    <div class="craft-right">
+                        <div class="craft-metric-list">
+                            <div class="metric-line">
+                                <span class="metric-num">94.8</span>
+                                <span class="metric-desc">Cupping score of rare Typica lot</span>
+                            </div>
+                            <div class="metric-line">
+                                <span class="metric-num">72<small>H</small></span>
+                                <span class="metric-desc">Cold anaerobic fermentation</span>
+                            </div>
+                            <div class="metric-line">
+                                <span class="metric-num">220°</span>
+                                <span class="metric-desc">Precision thermal drum profile</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             SCENE 05 — THE PRODUCT (70%–88%)
+             ================================================================== -->
+        <section class="scene-section scene-product" id="scene-product">
+            <div class="scene-sticky">
+                <div class="scene-content product-content">
+                    <span class="scene-meta-label">04 / THE HARVEST</span>
+
+                    <h2 class="scene-heading">
+                        YOUR EVERYDAY<br>
+                        <em>luxury.</em>
+                    </h2>
+
+                    <p class="scene-body-text">
+                        Meet your new favorite coffee ritual.
+                    </p>
+
+                    <div class="product-minimal-showcase">
+                        <div class="prod-headline">
+                            <span class="prod-title">YOUR CAFÉ RESERVE N° 1</span>
+                            <span class="prod-price">$42 &bull; 250G</span>
+                        </div>
+                        <p class="prod-notes">
+                            Single-origin micro-lot from the cloud forests of Huila. Roasted to awaken hints of golden caramel, dark stone fruit, and velvet cacao.
+                        </p>
+                        <a href="#scene-cta" class="link-luxury">
+                            <span>EXPLORE HARVEST</span>
+                            <span class="link-arrow">&rarr;</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             SCENE 06 — FINAL CTA (88%–100%)
+             ================================================================== -->
+        <section class="scene-section scene-cta" id="scene-cta">
+            <div class="scene-sticky cta-sticky">
+                <div class="scene-content cta-content">
+                    <span class="scene-meta-label">05 / THE INVITATION</span>
+
+                    <h2 class="cta-heading-grand">
+                        MAKE EVERY MOMENT<br>
+                        <em>matter.</em>
+                    </h2>
+
+                    <p class="cta-desc-minimal">
+                        Your perfect cup is waiting.
+                    </p>
+
+                    <a href="#footer" class="btn-minimal-luxury">
+                        <span>EXPERIENCE OUR COFFEE</span>
+                        <span class="btn-line"></span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             PREMIUM DARK COFFEE FOOTER
+             ================================================================== -->
+        <footer class="dark-coffee-footer" id="footer">
+            <div class="footer-ambient-glow" aria-hidden="true"></div>
+            
+            <div class="footer-container">
+                <!-- Top Brand & Allocation Invitation -->
+                <div class="footer-hero-row">
+                    <div class="footer-brand-lockup">
+                        <div class="brand-monogram">
+                            <span class="glyph">❖</span>
+                            <span class="brand-title">YOUR CAFÉ</span>
+                        </div>
+                        <span class="brand-heritage">ATELIER DE CAFÉ &bull; EST. 2024</span>
+                        <p class="brand-statement">
+                            An extraordinary coffee experience, sculpted one moment at a time.
+                            Roasted fresh in micro-lots and nitrogen-sealed for purists worldwide.
+                        </p>
+                    </div>
+
+                    <div class="footer-newsletter-wrap">
+                        <span class="newsletter-tag">PRIVATE HARVEST ALLOCATION</span>
+                        <p class="newsletter-sub">Receive seasonal single-origin release notifications and private cupping invitations.</p>
+                        <form class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Welcome to the Your Café Private Allocation list.');">
+                            <input type="email" placeholder="Enter your email address" required aria-label="Email address for allocation">
+                            <button type="submit" class="btn-subscribe-gold">
+                                <span>JOIN ATELIER</span>
+                                <span class="arrow">&rarr;</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="footer-divider-hairline"></div>
+
+                <!-- Middle Editorial Navigation Grid -->
+                <div class="footer-grid-nav">
+                    <div class="nav-col">
+                        <span class="col-heading">01 / NAVIGATION</span>
+                        <ul>
+                            <li><a href="#scene-hero">The Origin</a></li>
+                            <li><a href="#scene-experience">The Experience</a></li>
+                            <li><a href="#scene-ingredients">The Blend</a></li>
+                            <li><a href="#scene-craft">The Craft</a></li>
+                            <li><a href="#scene-product">Private Reserve</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="nav-col">
+                        <span class="col-heading">02 / HARVEST LOTS</span>
+                        <ul>
+                            <li><a href="#scene-product">Huila Pink Bourbon Washed</a></li>
+                            <li><a href="#scene-product">Geisha Anaerobic 72H</a></li>
+                            <li><a href="#scene-product">Caturra Honey Micro-lot</a></li>
+                            <li><a href="#scene-product">Swiss Water Decaf Lot</a></li>
+                            <li><a href="#scene-product">Master Cupping Kit</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="nav-col">
+                        <span class="col-heading">03 / ATELIERS</span>
+                        <div class="atelier-addresses">
+                            <p><strong>Milan:</strong> Via dell’Espresso 18</p>
+                            <p><strong>Medellin:</strong> El Poblado Cl. 8</p>
+                            <p><strong>Tokyo:</strong> Minami-Aoyama 5</p>
+                            <p class="atelier-contact"><a href="mailto:concierge@yourcafe.com">concierge@yourcafe.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="nav-col">
+                        <span class="col-heading">04 / DISPATCH &amp; CARE</span>
+                        <ul class="care-notes">
+                            <li>Worldwide Express Nitrogen-Sealed</li>
+                            <li>Rest 14 Days Post-Roast for Peak Aroma</li>
+                            <li>Optimal Water: 93.5°C &bull; 1:16 Ratio</li>
+                            <li>Direct Ethical Trade +300% Fairtrade</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-divider-hairline"></div>
+
+                <!-- Bottom Copyright & Coordinates -->
+                <div class="footer-legal-bar">
+                    <div class="legal-left">
+                        <p class="copy-text">&copy; 2024&ndash;2026 YOUR CAFÉ ATELIER. ALL RIGHTS RESERVED.</p>
+                        <div class="legal-links">
+                            <a href="#">Privacy Policy</a>
+                            <span class="dot">&bull;</span>
+                            <a href="#">Terms of Ritual</a>
+                            <span class="dot">&bull;</span>
+                            <a href="#">Sourcing Transparency</a>
+                        </div>
+                    </div>
+
+                    <div class="legal-right">
+                        <span class="geo-stamp">N° 04°35'56" W 75°42'08" &bull; 1,950M ASL</span>
+                        <a href="#scene-hero" class="back-to-top">TOP &uarr;</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Main JavaScript Application -->
+    <script src="script.js"></script>
+</body>
+</html>
